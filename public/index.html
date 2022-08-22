@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SocketServer</title>
+</head>
+<body>
+    <h1>Acceso denegado</h1>
+    <!--
+        En esta liga es la configuración (libreria) necesaria para que nuestra 
+        aplicación web se pueda conectar a nuestro socket server.
+        http://localhost:3000/socket.io/socket.io.js
+    -->
+    <script src="socket.io/socket.io.js"></script>
+
+    <script>
+        //Aquí se hace el llamado de la conexión al socket server    
+        //io(), se encuentra dentro la librería que arriba se indico (socket.io)
+        var socket = io();
+
+        socket.on('connect', function(){
+            console.log('Conectado al servidor');
+        });
+
+        socket.on('disconnect', function(){
+            console.log('Perdimos comunicación con el servidor');
+        });
+
+        //Simulando que se emite un evento, se hará lo siguiente.
+        //Para emitir un evento, se utiliza elobjeto socket porque aquí
+        //esta guardado el id, la conexión, etc.
+        
+        //Argumentos:
+        //1. Nombre del evento que se va emitir
+        //2. PayLoad, se úeden mandar String, boleanos, etc. Pero 
+        //   usualmente se mandan objeto para mandar varias cosas
+        socket.emit('mensaje',{nombre: 'El Roger'});
+
+
+        //Escuchar el evento 'mensaje' del servidor
+        socket.on('mensaje', function(payload){
+                console.log('Escuchando:', payload);
+        });   
+
+    </script>
+
+</body>
+</html>
